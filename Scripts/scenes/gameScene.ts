@@ -5,9 +5,10 @@ module scenes {
         
         // PRIVATE VARIABLES
         private _level1Image: createjs.Bitmap;
-        private _aSelection: objects.Button;
-        private _bSelection: objects.Button;
-        private _restartButton: objects.Button;
+        private _bet1: objects.Button;
+        private _bet10: objects.Button;
+        private _bet100: objects.Button;
+        private _spin: objects.Button;
 
         constructor() {
             super();
@@ -18,30 +19,37 @@ module scenes {
             this.addChild(this._level1Image);
             
             // added the A Selection button
-            this._aSelection = new objects.Button(
-                "AButton",
-                config.Screen.CENTER_X - 150,
-                config.Screen.CENTER_Y + 100);
-            this.addChild(this._aSelection);
+            this._bet1 = new objects.Button(
+                "Bet1",
+                195,
+                400);
+            this.addChild(this._bet1);
 
-            this._aSelection.on("click", this.ASelectionButtonClick, this);
+            this._bet1.on("click", this.ASelectionButtonClick, this);
             
             // added the A Selection button
-            this._bSelection = new objects.Button(
-                "BButton",
-                config.Screen.CENTER_X + 150,
-                config.Screen.CENTER_Y + 100);
-            this.addChild(this._bSelection);
+            this._bet10 = new objects.Button(
+                "Bet10",
+                280,
+                400);
+            this.addChild(this._bet10);
 
-            this._bSelection.on("click", this.BSelectionButtonClick, this);
+            this._bet10.on("click", this.BSelectionButtonClick, this);
             
             // added the Restart button
-            this._restartButton = new objects.Button(
-                "BackButton",
-                config.Screen.CENTER_X - 150,
-                config.Screen.CENTER_Y + 150);
-            this.addChild(this._restartButton);
-            this._restartButton.on("click", this.RestartButtonClick, this);
+            this._bet100 = new objects.Button(
+                "Bet100",
+                368,
+                400);
+            this.addChild(this._bet100);
+            this._bet100.on("click", this.RestartButtonClick, this);
+            
+            // added the Restart button
+            this._spin = new objects.Button(
+                "spin",
+                500,
+                400);
+            this.addChild(this._spin);
 
             stage.addChild(this);
 

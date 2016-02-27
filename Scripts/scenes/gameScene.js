@@ -20,6 +20,7 @@ var scenes;
             this._blanks = 0;
         }
         GameScene.prototype.start = function () {
+            this._resetAll();
             this._level1Image = new createjs.Bitmap(assets.getResult("SlotMachine"));
             this.addChild(this._level1Image);
             // added the Bet1 button
@@ -38,6 +39,22 @@ var scenes;
             this._spin = new objects.Button("spin", 442, 400, false);
             this.addChild(this._spin);
             this._spin.on("click", this._spinButtonClick, this);
+            // add JackPot Text to the scene
+            this._jackpotText = new objects.Label(this.jackpot.toString(), "27px Consolas", "#FFFFFF", 330, 184, false);
+            this._jackpotText.textAlign = "right";
+            this.addChild(this._jackpotText);
+            // add Credits Text to the scene
+            this._creditsText = new objects.Label(this.playerMoney.toString(), "27px Consolas", "#FFFFFF", 220, 369, false);
+            this._creditsText.textAlign = "right";
+            this.addChild(this._creditsText);
+            // add Bet Text to the scene
+            this._betText = new objects.Label(this.playerBet.toString(), "27px Consolas", "#FFFFFF", 320, 369, false);
+            this._betText.textAlign = "right";
+            this.addChild(this._betText);
+            // add Result Text to the scene
+            this._resultText = new objects.Label(this.winnings.toString(), "27px Consolas", "#FFFFFF", 433, 369, false);
+            this._resultText.textAlign = "right";
+            this.addChild(this._resultText);
             // Call the Initialize Array of Bitmaps 
             this._initializeBitmapArray();
             stage.addChild(this);
@@ -48,6 +65,13 @@ var scenes;
         /* Utility function to check if a value falls within a range of bounds */
         GameScene.prototype._checkRange = function (value, lowerBounds, upperBounds) {
             return (value >= lowerBounds && value <= upperBounds) ? value : -1;
+        };
+        // Resets the Bet, Credits, Jackpots and Winning
+        GameScene.prototype._resetAll = function () {
+            this.playerMoney = 1000;
+            this.winnings = 0;
+            this.jackpot = 5000;
+            this.playerBet = 0;
         };
         /* When this function is called it determines the betLine results.
         e.g. Bar - Orange - Banana */
@@ -104,33 +128,44 @@ var scenes;
                 console.log("reel" + reel + " " + this._reels[reel]);
             }
         };
+        // Set the Bet for the player
+        GameScene.prototype._playerBet = function (playerBet) {
+            // ensure player's bet is less than or equal to players money
+            if (playerBet <= this.playerMoney) {
+                this.playerBet += playerBet;
+                this.playerMoney -= playerBet;
+                this._creditsText.text = this.playerMoney.toString();
+                this._betText.text = this.playerBet.toString();
+            }
+        };
         // Handuler Methods
         // Bet1 Button click Handuler
         GameScene.prototype._bet1ButtonClick = function (event) {
             // Change the scenes
             // scene = config.Scene.LEVEL21;
             // changeScene();
+            this._playerBet(1);
         };
         // Bet10 button click Handuler
         GameScene.prototype._bet10ButtonClick = function (event) {
-            // Change the Scene
-            // scene = config.Scene.LEVEL22;
-            // changeScene();
+            this._playerBet(10);
         };
         // Bet100 Button click Handuler
         GameScene.prototype._bet100ButtonClick = function (event) {
-            // Change to Menu Scene
-            scene = config.Scene.MENU;
-            console.log("Change to menu scene");
-            changeScene();
+            this._playerBet(100);
         };
         // Spin Button click Handuler
         GameScene.prototype._spinButtonClick = function (event) {
-            var bitmap = this._spinReels();
-            for (var reel = 0; reel < 3; reel++) {
-                this._reels[reel].image = assets.getResult(bitmap[reel]);
+            // Spins only if the player has credits
+            if (this.playerBet > 0) {
+                var bitmap = this._spinReels();
+                for (var reel = 0; reel < 3; reel++) {
+                    this._reels[reel].image = assets.getResult(bitmap[reel]);
+                }
+                // reset player's bet to zero
+                this.playerBet = 0;
+                this._betText.text = this.playerBet.toString();
             }
-            console.log(this._reels[reel].image);
         };
         return GameScene;
     })(objects.Scene);

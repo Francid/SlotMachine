@@ -10,6 +10,15 @@ module scenes {
         private _bet100: objects.Button;
         private _spin: objects.Button;
         private _reels: createjs.Bitmap[];
+        private _jackpotText: objects.Label;
+        private _creditsText: objects.Label;
+        private _betText: objects.Label;
+        private _resultText: objects.Label;
+        private playerMoney: number;
+        private winnings: number;
+        private jackpot: number;
+        private playerBet: number;
+
 
         private _apple = 0;
         private _banana = 0;
@@ -25,6 +34,9 @@ module scenes {
         }
 
         public start(): void {
+
+            this._resetAll();
+
             this._level1Image = new createjs.Bitmap(assets.getResult("SlotMachine"));
             this.addChild(this._level1Image);
             
@@ -50,6 +62,42 @@ module scenes {
             this.addChild(this._spin);
             this._spin.on("click", this._spinButtonClick, this);
             
+            // add JackPot Text to the scene
+            this._jackpotText = new objects.Label(
+                this.jackpot.toString(),
+                "27px Consolas",
+                "#FFFFFF",
+                330, 184, false);
+            this._jackpotText.textAlign = "right";
+            this.addChild(this._jackpotText);
+        
+            // add Credits Text to the scene
+            this._creditsText = new objects.Label(
+                this.playerMoney.toString(),
+                "27px Consolas",
+                "#FFFFFF",
+                220, 369, false);
+            this._creditsText.textAlign = "right";
+            this.addChild(this._creditsText);
+            
+            // add Bet Text to the scene
+            this._betText = new objects.Label(
+                this.playerBet.toString(),
+                "27px Consolas",
+                "#FFFFFF",
+                320, 369, false);
+            this._betText.textAlign = "right";
+            this.addChild(this._betText);
+            
+            // add Result Text to the scene
+            this._resultText = new objects.Label(
+                this.winnings.toString(),
+                "27px Consolas",
+                "#FFFFFF",
+                433, 369, false);
+            this._resultText.textAlign = "right";
+            this.addChild(this._resultText);
+            
             // Call the Initialize Array of Bitmaps 
             this._initializeBitmapArray();
 
@@ -67,6 +115,14 @@ module scenes {
         /* Utility function to check if a value falls within a range of bounds */
         private _checkRange(value: number, lowerBounds: number, upperBounds: number): number {
             return (value >= lowerBounds && value <= upperBounds) ? value : -1;
+        }
+        
+        // Resets the Bet, Credits, Jackpots and Winning
+        private _resetAll() {
+            this.playerMoney = 1000;
+            this.winnings = 0;
+            this.jackpot = 5000;
+            this.playerBet = 0;
         }
         
         /* When this function is called it determines the betLine results.
@@ -127,6 +183,17 @@ module scenes {
             }
         }
         
+        // Set the Bet for the player
+        private _playerBet(playerBet: number) {
+            // ensure player's bet is less than or equal to players money
+            if (playerBet <= this.playerMoney) {
+                this.playerBet += playerBet;
+                this.playerMoney -= playerBet;
+                this._creditsText.text = this.playerMoney.toString();
+                this._betText.text = this.playerBet.toString();
+            }
+        }
+        
         // Handuler Methods
         
         // Bet1 Button click Handuler
@@ -134,30 +201,35 @@ module scenes {
             // Change the scenes
             // scene = config.Scene.LEVEL21;
             // changeScene();
+            this._playerBet(1);
         }
         
         // Bet10 button click Handuler
         private _bet10ButtonClick(event: createjs.MouseEvent): void {
-            // Change the Scene
-            // scene = config.Scene.LEVEL22;
-            // changeScene();
+
+            this._playerBet(10);
         }
 
         // Bet100 Button click Handuler
         private _bet100ButtonClick(event: createjs.MouseEvent): void {
-            // Change to Menu Scene
-            scene = config.Scene.MENU;
-            console.log("Change to menu scene");
-            changeScene();
+
+            this._playerBet(100);
         }
         
         // Spin Button click Handuler
         private _spinButtonClick(event: createjs.MouseEvent): void {
+            
+            // Spins only if the player has credits
+            if (this.playerBet > 0) {
+                var bitmap: string[] = this._spinReels();
 
-            var bitmap: string[] = this._spinReels();
-
-            for (var reel: number = 0; reel < 3; reel++) {
-                this._reels[reel].image = assets.getResult(bitmap[reel]);
+                for (var reel: number = 0; reel < 3; reel++) {
+                    this._reels[reel].image = assets.getResult(bitmap[reel]);
+                }
+            
+                // reset player's bet to zero
+                this.playerBet = 0;
+                this._betText.text = this.playerBet.toString()
             }
         }
 

@@ -8,14 +8,16 @@ var objects;
     var Button = (function (_super) {
         __extends(Button, _super);
         //CONSTRUCTOR
-        function Button(pathString, x, y) {
+        function Button(pathString, x, y, isCentered) {
             _super.call(this, "../../Assets/images/" + pathString + ".png");
             this.x = x;
             this.y = y;
             this.width = 150;
             this.height = 50;
-            this.regX = this.width * 0.5;
-            this.regY = this.height * 0.5;
+            if (isCentered) {
+                this.regX = this.width * 0.5;
+                this.regY = this.height * 0.5;
+            }
             this.on("mouseover", this.overButton, this);
             this.on("mouseout", this.outButton, this);
         }

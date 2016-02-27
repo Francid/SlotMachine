@@ -38,6 +38,8 @@ var scenes;
             this._spin = new objects.Button("spin", 442, 400, false);
             this.addChild(this._spin);
             this._spin.on("click", this._spinButtonClick, this);
+            // Call the Initialize Array of Bitmaps 
+            this._initializeBitmapArray();
             stage.addChild(this);
         };
         GameScene.prototype.update = function () {
@@ -91,6 +93,17 @@ var scenes;
             }
             return betLine;
         };
+        // This method creates the Bitmap Array
+        GameScene.prototype._initializeBitmapArray = function () {
+            this._reels = new Array();
+            for (var reel = 0; reel < 3; reel++) {
+                this._reels[reel] = new createjs.Bitmap(assets.getResult("Blank"));
+                this._reels[reel].x = 168 + (reel * 116);
+                this._reels[reel].y = 232;
+                this.addChild(this._reels[reel]);
+                console.log("reel" + reel + " " + this._reels[reel]);
+            }
+        };
         // Handuler Methods
         // Bet1 Button click Handuler
         GameScene.prototype._bet1ButtonClick = function (event) {
@@ -113,8 +126,11 @@ var scenes;
         };
         // Spin Button click Handuler
         GameScene.prototype._spinButtonClick = function (event) {
-            // Change to Menu Scene
-            console.log(this._spinReels());
+            var bitmap = this._spinReels();
+            for (var reel = 0; reel < 3; reel++) {
+                this._reels[reel].image = assets.getResult(bitmap[reel]);
+            }
+            console.log(this._reels[reel].image);
         };
         return GameScene;
     })(objects.Scene);

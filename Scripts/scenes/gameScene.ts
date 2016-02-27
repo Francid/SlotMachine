@@ -9,7 +9,8 @@ module scenes {
         private _bet10: objects.Button;
         private _bet100: objects.Button;
         private _spin: objects.Button;
-        
+        private _reels: createjs.Bitmap[];
+
         private _apple = 0;
         private _banana = 0;
         private _oranges = 0;
@@ -48,6 +49,10 @@ module scenes {
             this._spin = new objects.Button("spin", 442, 400, false);
             this.addChild(this._spin);
             this._spin.on("click", this._spinButtonClick, this);
+            
+            // Call the Initialize Array of Bitmaps 
+            this._initializeBitmapArray();
+
 
             stage.addChild(this);
 
@@ -57,7 +62,7 @@ module scenes {
 
         }
         
-          //PRIVATE METHODS
+        //PRIVATE METHODS
           
         /* Utility function to check if a value falls within a range of bounds */
         private _checkRange(value: number, lowerBounds: number, upperBounds: number): number {
@@ -110,6 +115,18 @@ module scenes {
             return betLine;
         }
         
+        // This method creates the Bitmap Array
+        private _initializeBitmapArray(): void {
+            this._reels = new Array<createjs.Bitmap>();
+            for (var reel: number = 0; reel < 3; reel++) {
+                this._reels[reel] = new createjs.Bitmap(assets.getResult("Blank"));
+                this._reels[reel].x = 168 + (reel * 116);
+                this._reels[reel].y = 232;
+                this.addChild(this._reels[reel]);
+                console.log("reel" + reel + " " + this._reels[reel]);
+            }
+        }
+        
         // Handuler Methods
         
         // Bet1 Button click Handuler
@@ -136,8 +153,12 @@ module scenes {
         
         // Spin Button click Handuler
         private _spinButtonClick(event: createjs.MouseEvent): void {
-            // Change to Menu Scene
-            console.log(this._spinReels());
+
+            var bitmap: string[] = this._spinReels();
+
+            for (var reel: number = 0; reel < 3; reel++) {
+                this._reels[reel].image = assets.getResult(bitmap[reel]);
+            }
         }
 
     }

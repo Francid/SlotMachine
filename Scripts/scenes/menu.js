@@ -26,7 +26,7 @@ var scenes;
             this._gameLabel.y = config.Screen.CENTER_Y;
             this.addChild(this._gameLabel);*/
             // add the START button to the MENU scene
-            this._startButton = new objects.Button("StartButton", config.Screen.CENTER_X, config.Screen.CENTER_Y + 60);
+            this._startButton = new objects.Button("StartButton", config.Screen.CENTER_X, config.Screen.CENTER_Y + 60, true);
             this.addChild(this._startButton);
             // START Button event listener
             this._startButton.on("click", this._startButtonClick, this);

@@ -22,7 +22,16 @@ var gameAsset:objects.Asset[]=[
     {id:"StartButton",src:"../../Assets/images/StartButton.png"},
     {id:"NextButton",src:"../../Assets/images/NextButton.png"},
     {id:"SlotMachine",src:"../../Assets/images/SlotMachine.png"},
-    {id:"RestartButton",src:"../../Assets/images/RestartButton.png"}
+    {id:"RestartButton",src:"../../Assets/images/RestartButton.png"},
+    {id:"Apple",src:"../../Assets/images/Apple.png"},
+    {id:"Apricot",src:"../../Assets/images/Apricot.png"},
+    {id:"Banana",src:"../../Assets/images/Banana.png"},
+    {id:"Cumber",src:"../../Assets/images/Cumber.png"},
+    {id:"Grape",src:"../../Assets/images/Grape.png"},
+    {id:"GreenApple",src:"../../Assets/images/GreenApple.png"},
+    {id:"Kiwi",src:"../../Assets/images/Kiwi.png"},
+    {id:"Orange",src:"../../Assets/images/Orange.png"},
+    {id:"Strawberry",src:"../../Assets/images/Strawberry.png"}
 ];
 
 function preload() {

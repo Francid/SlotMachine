@@ -16,9 +16,9 @@ var gameAsset = [
     { id: "Bet100", src: "../../Assets/images/Bet100.png" },
     { id: "Spin", src: "../../Assets/images/Spin.png" },
     { id: "StartButton", src: "../../Assets/images/StartButton.png" },
-    { id: "NextButton", src: "../../Assets/images/NextButton.png" },
+    { id: "OFF", src: "../../Assets/images/OFF.png" },
     { id: "SlotMachine", src: "../../Assets/images/SlotMachine.png" },
-    { id: "RestartButton", src: "../../Assets/images/RestartButton.png" },
+    { id: "Reset", src: "../../Assets/images/Reset.png" },
     { id: "Apple", src: "../../Assets/images/Apple.png" },
     { id: "Apricot", src: "../../Assets/images/Apricot.png" },
     { id: "Banana", src: "../../Assets/images/Banana.png" },
@@ -27,7 +27,8 @@ var gameAsset = [
     { id: "GreenApple", src: "../../Assets/images/GreenApple.png" },
     { id: "Kiwi", src: "../../Assets/images/Kiwi.png" },
     { id: "Orange", src: "../../Assets/images/Orange.png" },
-    { id: "Strawberry", src: "../../Assets/images/Strawberry.png" }
+    { id: "Strawberry", src: "../../Assets/images/Strawberry.png" },
+    { id: "Logo", src: "../../Assets/images/Logo.png" }
 ];
 function preload() {
     assets = new createjs.LoadQueue();
